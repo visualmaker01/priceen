@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing · Lesya Shutkevych · AI Visual Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:        #0140A6;
+  --blue-mid:    #1A56C4;
+  --blue-light:  #4A7ED8;
+  --blue-pale:   #7AAAF0;
+  --blue-glow:   rgba(1,64,166,0.22);
+  --pink:        #D72595;
+  --pink-light:  #EE4DBB;
+  --pink-glow:   rgba(215,37,149,0.25);
+  --cream:       #E2DDD4;
+  --cream-mid:   #9E9A91;
+  --warm-grey:   #5E5A54;
+  --dark-bg:     #121212;
+  --card-bg:     #191919;
+  --card-bg2:    #202020;
+  --card-border: #2A2A2A;
+  --card-border2:#363636;
+  --white:       #F0EDE8;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Raleway',sans-serif;font-weight:400;
+  background:#121212;color:var(--cream);
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* ── ANIMATED GRAIN CANVAS ── */
+#grain-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:0.55;mix-blend-mode:screen;
+}
+
+/* ── LAYOUT ── */
+.container{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* ── TYPOGRAPHY ── */
+.t-heading{font-family:'Unbounded',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;line-height:1.15;color:var(--white)}
+.t-sub{font-family:'Unbounded',sans-serif;font-weight:400;line-height:1.4;color:var(--cream-mid)}
+.t-body{font-family:'Raleway',sans-serif;font-weight:400;line-height:1.75;color:var(--cream)}
+
+/* ── HEADER ── */
+header{padding:52px 0 38px;border-bottom:1px solid var(--card-border);margin-bottom:52px}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+
+.logo-eyebrow{
+  font-family:'Unbounded',sans-serif;font-weight:400;
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:#ffffff;opacity:.75;margin-bottom:10px
+}
+.logo-name{
+  font-family:'Unbounded',sans-serif;font-weight:600;
+  font-size:clamp(22px,5vw,36px);text-transform:uppercase;
+  letter-spacing:.06em;line-height:1.1;color:#ffffff
+}
+.logo-name span{color:var(--blue-pale)}
+.logo-handle{
+  font-family:'Raleway',sans-serif;font-size:13px;font-weight:500;
+  color:#ffffff;opacity:.8;margin-top:9px;letter-spacing:.3px
+}
+.logo-handle a{color:#ffffff;text-decoration:none;opacity:.85;transition:opacity .2s,color .2s}
+.logo-handle a:hover{color:var(--blue-pale);opacity:1}
+
+.header-desc{
+  font-family:'Raleway',sans-serif;font-size:13px;font-weight:400;
+  color:var(--cream-mid);line-height:1.75;max-width:270px;text-align:right
+}
+@media(max-width:580px){.header-desc{text-align:left;max-width:100%}}
+
+/* ── PORTFOLIO LINKS ── */
+.portfolio-links{display:flex;gap:12px;flex-wrap:wrap}
+.portfolio-link{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--card-bg);border:1px solid var(--card-border2);
+  border-radius:7px;padding:10px 16px;text-decoration:none;
+  transition:border-color .2s,background .2s,transform .15s
+}
+.portfolio-link:hover{border-color:var(--blue-mid);background:rgba(1,64,166,.1);transform:translateY(-1px)}
+.portfolio-link-dot{width:6px;height:6px;border-radius:50%;background:var(--blue-light);flex-shrink:0}
+.portfolio-link-name{font-family:'Unbounded',sans-serif;font-weight:400;font-size:9px;color:var(--cream-mid);letter-spacing:.5px}
+.portfolio-link-handle{font-family:'Raleway',sans-serif;font-size:11px;color:var(--blue-pale);font-weight:600}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-family:'Unbounded',sans-serif;font-weight:400;
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--blue-light);margin-bottom:22px;
+  display:flex;align-items:center;gap:12px
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--card-border)}
+
+/* ── STEP ── */
+.step{margin-bottom:36px}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.step-num{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--blue-mid);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:600;
+  color:var(--blue-pale);flex-shrink:0
+}
+.step-title{
+  font-family:'Unbounded',sans-serif;font-weight:600;
+  font-size:clamp(13px,3vw,17px);text-transform:uppercase;
+  letter-spacing:.04em;color:var(--white)
+}
+
+/* ── OPTION CARDS ── */
+.options-grid{display:grid;gap:10px}
+.options-grid.cols-2{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.options-grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+
+.option-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:10px;padding:18px 18px 16px;
+  cursor:pointer;user-select:none;position:relative;overflow:hidden;
+  transition:border-color .2s,transform .15s,box-shadow .2s
+}
+.option-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(1,64,166,.09) 0%,transparent 55%);
+  opacity:0;transition:opacity .2s
+}
+.option-card:hover{border-color:var(--blue-mid);transform:translateY(-2px);box-shadow:0 6px 28px rgba(1,64,166,.14)}
+.option-card:hover::after{opacity:1}
+.option-card.selected{
+  border-color:var(--blue-light);
+  background:rgba(1,64,166,.09);
+  box-shadow:0 0 0 1px rgba(74,126,216,.3),0 6px 28px rgba(1,64,166,.18)
+}
+.option-card.selected::after{opacity:1}
+
+.option-check{
+  position:absolute;top:13px;right:13px;
+  width:19px;height:19px;border-radius:50%;
+  border:1.5px solid var(--card-border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:transparent;transition:all .2s
+}
+.option-card.selected .option-check{background:var(--blue-mid);border-color:var(--blue-mid);color:#fff}
+
+.option-icon{font-size:22px;margin-bottom:10px}
+.option-name{
+  font-family:'Unbounded',sans-serif;font-weight:600;
+  font-size:11px;text-transform:uppercase;letter-spacing:.03em;
+  color:var(--white);line-height:1.35;margin-bottom:6px;padding-right:24px
+}
+.option-desc{font-family:'Raleway',sans-serif;font-size:11px;font-weight:400;color:var(--cream-mid);line-height:1.6}
+.option-price{font-family:'Unbounded',sans-serif;font-weight:400;font-size:12px;color:var(--blue-pale);margin-top:10px}
+.discount-badge{
+  display:inline-block;margin-top:6px;
+  background:rgba(215,37,149,.13);border:1px solid rgba(215,37,149,.28);
+  border-radius:4px;padding:2px 8px;
+  font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;color:var(--pink-light)
+}
+
+/* ── QUANTITY ── */
+.qty-row{display:flex;align-items:center;gap:0;flex-wrap:wrap;row-gap:10px}
+.qty-btn{
+  width:42px;height:42px;background:var(--card-bg);
+  border:1px solid var(--card-border2);color:var(--cream);
+  font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,border-color .15s,color .15s
+}
+.qty-btn:first-child{border-radius:7px 0 0 7px}
+.qty-btn:last-child{border-radius:0 7px 7px 0}
+.qty-btn:hover{background:rgba(1,64,166,.14);border-color:var(--blue-mid);color:var(--blue-pale)}
+.qty-val{
+  width:56px;height:42px;background:var(--card-bg);
+  border-top:1px solid var(--card-border2);border-bottom:1px solid var(--card-border2);
+  border-left:none;border-right:none;
+  color:#fff;font-family:'Unbounded',sans-serif;font-size:15px;font-weight:600;
+  text-align:center;display:flex;align-items:center;justify-content:center
+}
+.qty-label{font-family:'Raleway',sans-serif;font-size:13px;color:var(--cream-mid);margin-left:14px}
+.discount-hint{
+  margin-left:12px;
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;color:var(--pink-light);
+  opacity:0;transition:opacity .3s
+}
+.discount-hint.visible{opacity:1}
+
+/* ── VIDEO DUR ── */
+.video-dur-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.dur-chip{
+  padding:7px 15px;border-radius:100px;
+  border:1px solid var(--card-border2);background:var(--card-bg);
+  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:400;
+  color:var(--cream-mid);cursor:pointer;transition:all .15s
+}
+.dur-chip:hover{border-color:var(--blue-light);color:var(--blue-pale)}
+.dur-chip.active{border-color:var(--blue-light);background:rgba(1,64,166,.12);color:var(--blue-pale)}
+
+/* ── CUSTOM DURATION INPUT ── */
+.custom-dur-row{
+  display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap
+}
+.custom-dur-label{font-family:'Raleway',sans-serif;font-size:12px;color:var(--cream-mid)}
+.custom-dur-input{
+  width:72px;height:36px;
+  background:var(--card-bg);border:1px solid var(--card-border2);
+  border-radius:7px;
+  color:#fff;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:600;
+  text-align:center;outline:none;
+  transition:border-color .2s
+}
+.custom-dur-input:focus{border-color:var(--blue-light)}
+.custom-dur-input::-webkit-inner-spin-button,
+.custom-dur-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.custom-dur-sec{font-family:'Raleway',sans-serif;font-size:12px;color:var(--cream-mid)}
+
+/* ── VIDEO RATE NOTE ── */
+.video-rate-note{margin-top:10px;font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;color:var(--blue-pale)}
+
+/* ── CHECKBOX OPTIONS ── */
+.check-option{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:10px;padding:14px 16px;
+  cursor:pointer;user-select:none;transition:border-color .2s
+}
+.check-option:hover{border-color:rgba(1,64,166,.4)}
+.check-option.checked{border-color:rgba(74,126,216,.55);background:rgba(1,64,166,.06)}
+.check-box{
+  width:19px;height:19px;border-radius:5px;
+  border:1.5px solid var(--card-border2);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;font-size:11px;color:transparent;transition:all .2s
+}
+.check-option.checked .check-box{background:var(--blue-mid);border-color:var(--blue-mid);color:#fff}
+.check-text-name{font-family:'Unbounded',sans-serif;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--white);margin-bottom:4px}
+.check-text-desc{font-family:'Raleway',sans-serif;font-size:11px;font-weight:400;color:var(--cream-mid);line-height:1.6}
+.check-text-price{font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;color:var(--blue-pale);margin-top:5px}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:rgba(1,64,166,.07);border:1px solid rgba(1,64,166,.18);
+  border-radius:8px;padding:14px 18px;margin-top:14px
+}
+.info-box ul{padding-left:16px}
+.info-box li{font-family:'Raleway',sans-serif;font-size:12px;font-weight:400;color:var(--cream-mid);line-height:1.9}
+.info-box li strong{font-weight:700;color:var(--cream)}
+.info-box li em{font-style:italic;color:var(--blue-pale)}
+
+/* ── DIVIDER ── */
+.step-divider{height:1px;background:var(--card-border);margin:10px 0 30px}
+
+/* ── RESULT PANEL ── */
+.result-panel{position:sticky;bottom:18px;z-index:10;margin-top:44px}
+.result-inner{
+  background:var(--card-bg2);border:1px solid var(--blue-mid);
+  border-radius:14px;padding:22px 26px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:20px;flex-wrap:wrap;position:relative;overflow:hidden;
+  box-shadow:0 12px 50px rgba(0,0,0,.8),0 0 40px rgba(1,64,166,.1)
+}
+.result-inner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue-light),transparent)
+}
+.result-label{font-family:'Unbounded',sans-serif;font-weight:400;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--blue-pale);margin-bottom:6px}
+.result-breakdown{font-family:'Raleway',sans-serif;font-size:12px;font-weight:400;color:var(--cream-mid);line-height:1.9;max-width:380px}
+.result-total{text-align:right}
+.result-total-label{font-family:'Unbounded',sans-serif;font-weight:400;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--warm-grey);margin-bottom:4px}
+.result-price{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(32px,7vw,48px);color:#fff;line-height:1}
+.result-price sup{font-size:17px;color:var(--blue-pale);vertical-align:top;margin-top:7px;margin-right:3px}
+
+/* ── CTA BTN ── */
+.cta-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue-mid);color:#fff;
+  border:none;border-radius:7px;padding:13px 22px;
+  font-family:'Unbounded',sans-serif;font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;
+  cursor:pointer;text-decoration:none;white-space:nowrap;
+  transition:background .25s,transform .15s,box-shadow .25s
+}
+.cta-btn:hover{
+  background:var(--pink);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px var(--pink-glow)
+}
+
+/* ── TICKER ── */
+.ticker-wrap{
+  width:100%;overflow:hidden;
+  background:rgba(1,64,166,.12);
+  border-top:1px solid rgba(1,64,166,.22);
+  border-bottom:1px solid rgba(1,64,166,.22);
+  padding:11px 0;margin-top:12px;
+  position:relative;z-index:2
+}
+.ticker-track{
+  display:flex;width:max-content;
+  animation:ticker 28s linear infinite
+}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+  color:var(--cream);white-space:nowrap;padding:0 36px;
+  display:flex;align-items:center;gap:14px
+}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--blue-light);flex-shrink:0}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--card-border);padding:30px 0 50px;margin-top:60px;text-align:center}
+.footer-name{font-family:'Unbounded',sans-serif;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--cream-mid);margin-bottom:8px}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:8px}
+.footer-link{font-family:'Raleway',sans-serif;font-size:12px;font-weight:600;color:var(--blue-pale);text-decoration:none;transition:color .2s}
+.footer-link:hover{color:var(--pink-light)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes priceFlash{0%{color:var(--blue-pale)}100%{color:#fff}}
+.step{animation:fadeUp .45s ease both}
+.step:nth-child(1){animation-delay:.05s}.step:nth-child(2){animation-delay:.1s}
+.step:nth-child(3){animation-delay:.15s}.step:nth-child(4){animation-delay:.2s}
+.step:nth-child(5){animation-delay:.25s}.step:nth-child(6){animation-delay:.3s}
+.result-panel{animation:fadeUp .5s .35s ease both}
+.price-flash{animation:priceFlash .35s ease}
+</style>
+</head>
+<body>
+
+<!-- ANIMATED GRAIN CANVAS -->
+<canvas id="grain-canvas"></canvas>
+
+<div class="container">
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-top">
+    <div class="logo-block">
+      <div class="logo-eyebrow">AI Visual Maker · Price Calculator</div>
+      <div class="logo-name">Lesya <span>Shutkevych</span></div>
+      <div class="logo-handle">
+        <a href="https://www.instagram.com/i_love_vizual/" target="_blank">@i_love_vizual</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.instagram.com/visualmaker.agency/" target="_blank">@visualmaker.agency</a>
+        &nbsp;·&nbsp; Vinnytsia, Ukraine
+      </div>
+    </div>
+    <div class="header-desc">
+      Select your project parameters — the calculator will estimate the cost automatically. Then just DM me 🖤
+    </div>
+  </div>
+
+  <div class="portfolio-links">
+    <a href="https://www.instagram.com/i_love_vizual/" target="_blank" class="portfolio-link">
+      <div class="portfolio-link-dot"></div>
+      <div>
+        <div class="portfolio-link-name">Instagram</div>
+        <div class="portfolio-link-handle">@i_love_vizual</div>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/visualmaker.agency/" target="_blank" class="portfolio-link">
+      <div class="portfolio-link-dot"></div>
+      <div>
+        <div class="portfolio-link-name">Agency</div>
+        <div class="portfolio-link-handle">@visualmaker.agency</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<!-- ── CALCULATOR ── -->
+<div class="calc-section">
+  <div class="section-label">Price Calculator</div>
+
+  <!-- STEP 1 -->
+  <div class="step" id="step-type">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title">Content Type</div>
+    </div>
+    <div class="options-grid cols-2">
+
+      <div class="option-card" data-type="photo-product" onclick="selectType(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">📦</div>
+        <div class="option-name">Product Integration Photo</div>
+        <div class="option-desc">Still life, cosmetics, jewellery, perfumes, accessories — product placed in an artistic scene</div>
+        <div class="option-price">from $25 / shot</div>
+        <div class="discount-badge">−10% from 10 photos</div>
+      </div>
+
+      <div class="option-card" data-type="photo-model" onclick="selectType(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">👤</div>
+        <div class="option-name">AI Model or Your Face Photo</div>
+        <div class="option-desc">Consistent model tailored to your brief, neural photo session, model with product, fashion, lifestyle</div>
+        <div class="option-price">from $30 / shot</div>
+        <div class="discount-badge">−10% from 10 photos</div>
+      </div>
+
+      <div class="option-card" data-type="photoset" onclick="selectType(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">🖼️</div>
+        <div class="option-name">Unified Style Photo Set</div>
+        <div class="option-desc">One model · one style · one location · multiple angles. Delivered as a cohesive visual series</div>
+        <div class="option-price">$20 / shot (min. 8)</div>
+      </div>
+
+      <div class="option-card" data-type="ai-model" onclick="selectType(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">✨</div>
+        <div class="option-name">Custom AI Model for Brand</div>
+        <div class="option-desc">1 unique character + reference snaps from multiple angles for ongoing use</div>
+        <div class="option-price">$30 / model</div>
+      </div>
+
+      <div class="option-card" data-type="video" onclick="selectType(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">🎬</div>
+        <div class="option-name">AI Video</div>
+        <div class="option-desc">Reels, TikTok, ads — product, fashion, UGC, surrealism, motion. <strong style="color:var(--cream)">5 seconds = 1 frame</strong></div>
+        <div class="option-price">from $50 / 5 sec</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="step-divider"></div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step-qty">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title" id="qty-title">Quantity</div>
+    </div>
+
+    <!-- photo -->
+    <div id="qty-photo-block">
+      <div class="qty-row">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <div class="qty-val" id="qty-display">1</div>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+        <span class="qty-label" id="qty-label-text">shot(s) to edit</span>
+        <span class="discount-hint" id="discount-hint">🎉 −10% applied!</span>
+      </div>
+      <div class="info-box">
+        <ul>
+          <li>All <strong>successful generations</strong> are delivered free — without retouching</li>
+          <li>You only pay for shots that go through <strong>editing & retouching</strong></li>
+          <li><em>−10% discount</em> applied automatically when ordering <strong>10+ photos</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ai-model -->
+    <div id="qty-aimodel-block" style="display:none">
+      <div class="qty-row">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <div class="qty-val" id="qty-display-m">1</div>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+        <span class="qty-label">model(s)</span>
+      </div>
+      <div class="info-box">
+        <ul>
+          <li>Each model is a unique character tailored to your brand</li>
+          <li>Includes <strong>reference snaps</strong> — photos from multiple angles</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- video -->
+    <div id="qty-video-block" style="display:none">
+      <div class="t-sub" style="font-size:11px;margin-bottom:10px;font-family:'Unbounded',sans-serif;font-weight:400;color:var(--cream-mid);letter-spacing:.03em">Video Duration</div>
+      <div class="video-dur-row" id="dur-chips">
+        <div class="dur-chip active" data-sec="5"  onclick="selectDurChip(this)">5 sec</div>
+        <div class="dur-chip" data-sec="10" onclick="selectDurChip(this)">10 sec</div>
+        <div class="dur-chip" data-sec="15" onclick="selectDurChip(this)">15 sec</div>
+        <div class="dur-chip" data-sec="20" onclick="selectDurChip(this)">20 sec</div>
+        <div class="dur-chip" data-sec="30" onclick="selectDurChip(this)">30 sec</div>
+        <div class="dur-chip" data-sec="60" onclick="selectDurChip(this)">60 sec</div>
+        <div class="dur-chip" data-sec="90" onclick="selectDurChip(this)">90 sec</div>
+        <div class="dur-chip" data-sec="120" onclick="selectDurChip(this)">2 min</div>
+      </div>
+      <!-- Manual input -->
+      <div class="custom-dur-row">
+        <span class="custom-dur-label">or enter manually:</span>
+        <input class="custom-dur-input" id="custom-dur" type="number" min="5" max="600" step="5" value="" placeholder="—" oninput="onCustomDur(this)">
+        <span class="custom-dur-sec">sec</span>
+      </div>
+      <div class="video-rate-note" id="video-rate-note">$50 per 5 sec (1 frame)</div>
+      <div class="info-box">
+        <ul>
+          <li><strong>5 seconds = 1 frame</strong></li>
+          <li>Up to <strong>60 sec</strong> — $50 per 5 sec</li>
+          <li>From <strong>60 sec</strong> — $40 per 5 sec</li>
+          <li>Voice-over & lipsync — <em>price on request via DM</em></li>
+          <li>All frames used in editing — <strong>included</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-divider"></div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step-extras">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title">Add-ons</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+
+      <div class="check-option" id="extra-retouch" onclick="toggleExtra(this)">
+        <div class="check-box">✓</div>
+        <div>
+          <div class="check-text-name">Extra Retouching of Successful Generations</div>
+          <div class="check-text-desc">Retouching of photos not included in the main package</div>
+          <div class="check-text-price">+$5–10 per photo depending on complexity</div>
+        </div>
+      </div>
+
+      <div class="check-option" id="extra-tz" onclick="toggleExtra(this)" style="display:none">
+        <div class="check-box">✓</div>
+        <div>
+          <div class="check-text-name">Concept & Brief Development for Video</div>
+          <div class="check-text-desc">Idea, script and full creative brief — if you don't have a ready concept</div>
+          <div class="check-text-price">+$10–50 depending on length</div>
+        </div>
+      </div>
+
+      <div class="check-option" id="extra-noportfolio" onclick="toggleExtra(this)">
+        <div class="check-box">✓</div>
+        <div>
+          <div class="check-text-name">No Portfolio Publication</div>
+          <div class="check-text-desc">By default I may feature completed work in my portfolio. If you need full confidentiality — select this option</div>
+          <div class="check-text-price">+15% to total price</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="step-divider"></div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step-urgency">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title">Turnaround Time</div>
+    </div>
+    <div class="options-grid cols-2">
+      <div class="option-card selected" data-urgency="standard" onclick="selectUrgency(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">🗓</div>
+        <div class="option-name">Standard</div>
+        <div class="option-desc">2–5 business days depending on scope<br><span style="font-size:10px;color:var(--warm-grey)">Sat–Sun — days off</span></div>
+        <div class="option-price">base price</div>
+      </div>
+      <div class="option-card" data-urgency="urgent" onclick="selectUrgency(this)">
+        <div class="option-check">✓</div>
+        <div class="option-icon">⚡</div>
+        <div class="option-name">Rush</div>
+        <div class="option-desc">1–2 days subject to availability</div>
+        <div class="option-price">+30% to total</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-divider"></div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="step-revisions">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title">Revisions</div>
+    </div>
+    <div class="info-box">
+      <ul>
+        <li><strong>3 free revision rounds</strong> included in every order</li>
+        <li>Each additional round — <strong>+$2</strong></li>
+        <li>Revisions <strong>within the agreed brief</strong> — key condition 🖤</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /calc-section -->
+
+<!-- ── RESULT PANEL ── -->
+<div class="result-panel">
+  <div class="result-inner">
+    <div class="result-left">
+      <div class="result-label">Your Order</div>
+      <div class="result-breakdown" id="result-breakdown">
+        Select a content type above — the calculator will estimate the cost
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+      <div class="result-total">
+        <div class="result-total-label">Estimated Price</div>
+        <div class="result-price"><sup>$</sup><span id="price-val">—</span></div>
+      </div>
+      <a href="https://www.instagram.com/i_love_vizual/" target="_blank" class="cta-btn">
+        DM on Instagram →
+      </a>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-name">Lesya Shutkevych · AI Visual Maker</div>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/i_love_vizual/" target="_blank" class="footer-link">@i_love_vizual</a>
+    <a href="https://www.instagram.com/visualmaker.agency/" target="_blank" class="footer-link">@visualmaker.agency</a>
+  </div>
+</footer>
+
+</div><!-- /container -->
+
+<script>
+/* ══════════════════════════════════
+   ANIMATED GRAIN
+══════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('grain-canvas');
+  const ctx = canvas.getContext('2d');
+  let frame = 0;
+
+  function resize(){
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function renderGrain(){
+    const w = canvas.width, h = canvas.height;
+    const imageData = ctx.createImageData(w, h);
+    const data = imageData.data;
+    for(let i = 0; i < data.length; i += 4){
+      const v = (Math.random() * 255) | 0;
+      data[i]   = v;
+      data[i+1] = v;
+      data[i+2] = v;
+      data[i+3] = 28;
+    }
+    ctx.putImageData(imageData, 0, 0);
+    frame++;
+    requestAnimationFrame(renderGrain);
+  }
+  renderGrain();
+})();
+
+/* ══════════════════════════════════
+   TICKER BUILD
+══════════════════════════════════ */
+(function(){
+  const items = [
+    '50% prepayment to confirm the order',
+    'Balance due after final approval',
+    '3 free revision rounds included in every order',
+    'Turnaround: 2–5 business days',
+    'Sat–Sun — days off',
+    'All successful generations delivered',
+  ];
+  const track = document.getElementById('ticker-track');
+  for(let r = 0; r < 2; r++){
+    items.forEach(text => {
+      const el = document.createElement('div');
+      el.className = 'ticker-item';
+      el.innerHTML = `<div class="ticker-dot"></div>${text}`;
+      track.appendChild(el);
+    });
+  }
+})();
+
+/* ══════════════════════════════════
+   CALCULATOR STATE
+══════════════════════════════════ */
+const state = {
+  type: null,
+  qty: 1,
+  videoDur: 5,
+  extras: { retouch:false, tz:false, noportfolio:false },
+  urgency: 'standard',
+};
+
+const PRICES = {
+  'photo-product':25,
+  'photo-model':30,
+  'photoset':20,
+  'ai-model':30,
+};
+
+function selectType(card){
+  document.querySelectorAll('#step-type .option-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  state.type = card.dataset.type;
+
+  const isVideo   = state.type==='video';
+  const isAiModel = state.type==='ai-model';
+  const isPhoto   = !isVideo && !isAiModel;
+
+  document.getElementById('qty-photo-block').style.display   = isPhoto   ?'block':'none';
+  document.getElementById('qty-aimodel-block').style.display = isAiModel ?'block':'none';
+  document.getElementById('qty-video-block').style.display   = isVideo   ?'block':'none';
+
+  const titles={
+    'photo-product':'Number of Shots',
+    'photo-model':'Number of Shots',
+    'photoset':'Number of Shots',
+    'ai-model':'Number of Models',
+    'video':'Video Duration'
+  };
+  document.getElementById('qty-title').textContent = titles[state.type]||'Quantity';
+
+  if(state.type==='photoset' && state.qty<8){
+    state.qty=8;
+    document.getElementById('qty-display').textContent=8;
+  }
+  const lblMap={
+    'photoset':'shots (min. 8)',
+    'photo-product':'shot(s) to edit',
+    'photo-model':'shot(s) to edit'
+  };
+  const lbl=document.getElementById('qty-label-text');
+  if(lbl) lbl.textContent=lblMap[state.type]||'shot(s)';
+
+  document.getElementById('extra-retouch').style.display=isPhoto?'flex':'none';
+  document.getElementById('extra-tz').style.display=isVideo?'flex':'none';
+
+  updateDiscountHint();
+  recalc();
+}
+
+function changeQty(delta){
+  const min=state.type==='photoset'?8:1;
+  state.qty=Math.max(min, state.qty+delta);
+  const el=state.type==='ai-model'
+    ?document.getElementById('qty-display-m')
+    :document.getElementById('qty-display');
+  el.textContent=state.qty;
+  updateDiscountHint();
+  recalc();
+}
+
+function updateDiscountHint(){
+  const hint=document.getElementById('discount-hint');
+  if(!hint) return;
+  const ok=(state.type==='photo-product'||state.type==='photo-model')&&state.qty>=10;
+  hint.classList.toggle('visible',ok);
+}
+
+function selectDurChip(chip){
+  document.querySelectorAll('.dur-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  state.videoDur=parseInt(chip.dataset.sec);
+  document.getElementById('custom-dur').value='';
+  updateVideoRateNote();
+  recalc();
+}
+
+function onCustomDur(input){
+  const v=parseInt(input.value);
+  if(!v||v<5) return;
+  state.videoDur=v;
+  document.querySelectorAll('.dur-chip').forEach(c=>c.classList.remove('active'));
+  updateVideoRateNote();
+  recalc();
+}
+
+function updateVideoRateNote(){
+  const rate=state.videoDur>=60?40:50;
+  document.getElementById('video-rate-note').textContent=
+    `$${rate} per 5 sec (1 frame)`+(state.videoDur>=60?' — rate from 60 sec':'');
+}
+
+function toggleExtra(el){
+  el.classList.toggle('checked');
+  const id=el.id.replace('extra-','');
+  state.extras[id]=el.classList.contains('checked');
+  recalc();
+}
+
+function selectUrgency(card){
+  document.querySelectorAll('#step-urgency .option-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  state.urgency=card.dataset.urgency;
+  recalc();
+}
+
+function recalc(){
+  if(!state.type) return;
+  let base=0, lines=[];
+
+  if(state.type==='video'){
+    const rate=state.videoDur>=60?40:50;
+    const segs=Math.ceil(state.videoDur/5);
+    base=segs*rate;
+    lines.push(`AI Video ${state.videoDur} sec · ${segs} frames × $${rate}`);
+  } else if(state.type==='ai-model'){
+    base=30*state.qty;
+    lines.push(`${state.qty} AI model(s) × $30`);
+  } else {
+    let unit=PRICES[state.type];
+    const ok=(state.type==='photo-product'||state.type==='photo-model')&&state.qty>=10;
+    if(ok) unit=Math.round(unit*0.9);
+    base=unit*state.qty;
+    const lbl=state.type==='photoset'?'shots':'shot(s)';
+    lines.push(`${state.qty} ${lbl} × $${unit}${ok?' (−10%)':''}`);
+  }
+
+  let extra=0;
+  if(state.extras.retouch && state.type!=='video') lines.push('+ extra retouching: from $5/photo');
+  if(state.extras.tz && state.type==='video'){ lines.push('+ concept & brief: from $10'); extra+=10; }
+
+  let total=base+extra;
+
+  if(state.extras.noportfolio){
+    const add=Math.round(total*0.15);
+    lines.push(`+ confidentiality: +15% (+$${add})`);
+    total+=add;
+  }
+  if(state.urgency==='urgent'){
+    const add=Math.round(total*0.30);
+    lines.push(`⚡ Rush: +30% (+$${add})`);
+    total+=add;
+  }
+
+  document.getElementById('result-breakdown').innerHTML=lines.join('<br>');
+
+  const priceEl=document.getElementById('price-val');
+  const isApprox=state.extras.retouch;
+  priceEl.textContent=(isApprox?'~':'')+total;
+  priceEl.classList.remove('price-flash');
+  void priceEl.offsetWidth;
+  priceEl.classList.add('price-flash');
+}
+</script>
+</body>
+</html>
